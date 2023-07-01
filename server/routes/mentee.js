@@ -19,6 +19,7 @@ router.post("/register", async (req, res) => {
         availableDays: req.body.availableDays,
         availableTimingSlots: req.body.availableTimingSlots,
         otherComments: req.body.otherComments,
+        areasOfInterest: null,
     });
     console.log(newUser)
     try {
@@ -38,27 +39,28 @@ router.put("/assign-module", async (req, res) => {
     // const cookies = cookie.parse(cookieHeader);
     // const data = cookies.jsonData ? JSON.parse(decodeURIComponent(cookies.jsonData)) : null;
     const data = req.body.id
-    const filter = { _id: new ObjectID(id) };
-    const update = { $set: { areasOfInterest: newAreasOfInterest } };
-    const result = await collection.findOneAndUpdate(filter, update, { returnOriginal: false });
-    if (result.ok) {
+    const filter = { _id: data };
+    const update = { $set: { areasOfInterest: req.body.areasOfInterest } };
+    const result = await Mentee.findOneAndUpdate(filter, update, { returnOriginal: false });
+
+    if (result) {
         try {
             const menteeId = data
             const mentee = await Mentee.findOne({ _id: menteeId });
-            const menteeLanguages = mentee.languagesSpoken.split(',').map((lang) => lang.trim());
-            const menteeQualifications = mentee.qualification.split(',').map((qual) => qual.trim());
-            const menteeAvailability = mentee.availableDays.split(',').map((day) => day.trim());
-
-            const mentors = await Mentor.findAll({ mentorAssigned: false });
-
+            const menteeLanguages = mentee.languagesSpoken
+            const menteeareaOfInterests = mentee.areasOfInterest
+            const menteeAvailability = mentee.availableDays
+            const mentors = await Mentor.find({ menteeAssigned: false });
+            // console.log(menteeId)
+            // console.log(mentors)
             mentors.forEach((mentor) => {
-                const mentorLanguages = mentor.languagesSpoken.split(',').map((lang) => lang.trim());
-                const mentorQualifications = mentor.qualification.split(',').map((qual) => qual.trim());
-                const mentorAvailability = mentor.availableDays.split(',').map((day) => day.trim());
-                const commonLanguages = mentorLanguages.filter((language) => menteeLanguages.includes(language));
-                const commonQualifications = mentorQualifications.filter((qual) => menteeQualifications.includes(qual));
-                const commonAvailability = mentorAvailability.filter((day) => menteeAvailability.includes(day));
-                if (commonLanguages.length > 0 && commonQualifications.length > 0 && commonAvailability.length > 0) {
+                // const mentorLanguages = mentor.languagesSpoken.map((lang) => lang.trim());
+                const mentorareaOfInterests = mentor.areasOfInterest
+                // const mentorAvailability = mentor.availableDays.map((day) => day.trim());
+                const commonLanguages = mentor.languagesSpoken.filter((language) => menteeLanguages.includes(language));
+                const commonQualifications = mentorareaOfInterests
+                const commonAvailability = mentor.availableDays.filter((day) => menteeAvailability.includes(day));
+                if (commonLanguages.length > 0 && commonQualifications===menteeareaOfInterests && commonAvailability.length > 0) {
                     mentor.menteeIdAssigned = menteeId
                     mentee.mentorIdAssigned = mentor._id
                     mentor.menteeAssigned = true;
@@ -66,12 +68,21 @@ router.put("/assign-module", async (req, res) => {
                     mentor.save();
                     mentee.save();
                     console.log(`Mentor ${mentor.username} matched with Mentee ${mentee.username}`);
-                    return res.status(200)                    
+                    throw new Error('BreakLoop');                      
                 }
-            });            
+            });
+            if(!mentee.mentorAssigned){
+                res.sendStatus(404)
+            }
         } catch (error) {
-            console.error(error);
-        }        
+            if (error.message === 'BreakLoop') {
+                // Handle the exception (optional)
+                res.sendStatus(200)
+            } else {
+                throw error;
+            }
+        }
+        // res.sendStatus(200)          
     } else {
         res.status(500)
     }

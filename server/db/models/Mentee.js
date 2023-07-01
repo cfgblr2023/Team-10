@@ -117,10 +117,12 @@ const menteeSchema = new mongoose.Schema({
   },
   areasOfInterest: {
     type: String,
-    required: false
+    required: false,
+    default: null,
   },
   sessionDuration:{
-    type:Integer
+    type: Number,
+    required: false
   }
 });
 
