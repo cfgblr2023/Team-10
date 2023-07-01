@@ -1,7 +1,7 @@
 import React from 'react'
 import SideNavbar from './SideNavbar'
 
-function Maindashboard() {
+function MenteeMaindashboard() {
   return (
     <div>
       <SideNavbar/>
@@ -9,4 +9,4 @@ function Maindashboard() {
   )
 }
 
-export default Maindashboard
+export default  MenteeMaindashboard
