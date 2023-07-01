@@ -16,7 +16,7 @@ function Login()
                 navigate.goBack();
             } //then redirect to landing page
             else{
-                navigate("/home");
+                navigate("/dashboard");
             }
             console.log(res)
         
