@@ -18,7 +18,7 @@ function MenteeRegister() {
       .post("http://localhost:3001/mentee/register", userData)
       .then((res) => {
         console.log(res);
-        navigate("/dashboard");
+        navigate("/dashboard-mentee");
       })
       .catch((err) => {
         console.log(err);
