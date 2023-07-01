@@ -9,10 +9,6 @@ const moduleSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  sessionNumber: {
-    type: Number,
-    required: false
-  },
   sessionCompleted: {
     type: Boolean,
     required: false

@@ -37,7 +37,7 @@ function Login()
                     {/* username */}
                     <div className="mb-3">
                         <label htmlFor="un"><em>Username</em></label>
-                        <input type="text" id="un" className="form-control" {...register("username", { required: true, minLength: 4 ,maxLength:10})} />
+                        <input type="text" id="username" className="form-control" {...register("username", { required: true, minLength: 4 ,maxLength:10})} />
                         {/* validation error msg for username */}
                         {errors.username?.type === 'required' && <p className='text-danger'>* Username required</p>}
                     </div>

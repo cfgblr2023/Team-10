@@ -1,11 +1,25 @@
 const router = require("express").Router();
+const Mentee = require("../db/models/Mentee");
+const Mentor = require("../db/models/Mentor")
 const Feedback=require("../db/models/feedback");
-
+const jwt = require('jsonwebtoken')
+let c = 1;
+let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
+let id = decodedtoken.id
+const menteeID = "", mentorID = "";
+const mentor_data = await Mentor.findById(id);
+if(mentor_data){
+    mentorID = id;
+    menteeID = mentor_data.menteeIdAssigned
+} else {
+    const mentee_data = await Mentee.findById(id)
+    menteeID = id
+    mentorID = mentee_data.mentorIdAssigned
+}
 router.post("/feedback",async (req,res)=>{
     const newFeedback = new Feedback({
-        mentorID:req.body.mentorID,
-        menteeID:req.body.menteeID,
-        sessionid:req.body.sessionid,
+        mentorID: mentorID,
+        menteeID: menteeID,
         sessionduration:req.body.sessionduration,
         rating:req.body.rating,
         comments:req.body.comments,

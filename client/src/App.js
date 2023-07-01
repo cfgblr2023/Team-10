@@ -9,10 +9,14 @@ import {
 } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import MentorRegister from "./components/MentorRegister";
-import Maindashboard from "./components/dashboard/Maindashboard";
+
+import MenteeMaindashboard from "./components/dashboard/MenteeMaindashboard";
+import MentorMaindashboard from "./components/dashboard/MenteeMaindashboard";
+
 
 import MyCalender from "./components/Calender";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+import MaindashboardAA from "./components/mentordashboard/MaindashboardAA";
 
 function App() {
   return (
@@ -26,9 +30,8 @@ function App() {
             <Route path="/home" element={<HomePage/>} />
             <Route path="/mentee-registration" element={<MenteeRegister/>} />
             <Route path="/mentor-registration" element={<MentorRegister/>} />
-            <Route path="/dashboard" element={<Maindashboard/>} />
-            
-
+            <Route path="/dashboard-mentee" element={<MenteeMaindashboard/>} />
+            <Route path="/dashboard-mentor" element={<MentorMaindashboard/>} />
             <Route path="/calender/:id" element={<MyCalender/>}/>
           </Routes>
         </div>
