@@ -9,10 +9,11 @@ import {
 } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import MentorRegister from "./components/MentorRegister";
-import Maindashboard from "./components/dashboard/Maindashboard";
+import Maindashboard from "./components/menteedashboard/Maindashboard";
 
 import MyCalender from "./components/Calender";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+import MaindashboardAA from "./components/mentordashboard/MaindashboardAA";
 
 function App() {
   return (
@@ -27,8 +28,6 @@ function App() {
             <Route path="/mentee-registration" element={<MenteeRegister/>} />
             <Route path="/mentor-registration" element={<MentorRegister/>} />
             <Route path="/dashboard" element={<Maindashboard/>} />
-            
-
             <Route path="/calender" element={<MyCalender/>}/>
           </Routes>
         </div>

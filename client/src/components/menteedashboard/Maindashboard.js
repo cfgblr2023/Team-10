@@ -1,10 +1,14 @@
 import React from 'react'
-import SideNavbar from './SideNavbar'
+import Navbar from './Navbar'
+import Cards from './Cards'
+
 
 function Maindashboard() {
   return (
     <div>
-      <SideNavbar/>
+      <Navbar/>
+      <Cards/>
+      
     </div>
   )
 }
