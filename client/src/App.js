@@ -28,7 +28,7 @@ function App() {
             <Route path="/mentee-registration" element={<MenteeRegister/>} />
             <Route path="/mentor-registration" element={<MentorRegister/>} />
             <Route path="/dashboard" element={<Maindashboard/>} />
-            <Route path="/calender" element={<MyCalender/>}/>
+            <Route path="/calender/:id" element={<MyCalender/>}/>
           </Routes>
         </div>
       </header>

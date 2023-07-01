@@ -5,6 +5,10 @@ const moduleSchema = new mongoose.Schema({
     type: Number,
     required: false
   },
+  moduleName: {
+    type: String,
+    required: false
+  },
   sessionNumber: {
     type: Number,
     required: false
@@ -79,6 +83,14 @@ const mentorSchema = new mongoose.Schema({
   },
   module: {
     type: [moduleSchema]
+  },
+  areasOfInterest: {
+    type: String,
+    required: true
+  },
+  menteeIdAssigned: {
+    type: String,
+    required: false
   }
 });
 

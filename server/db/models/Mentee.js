@@ -4,6 +4,10 @@ const moduleSchema = new mongoose.Schema({
     type: Number,
     required: false
   },
+  moduleName: {
+    type: String,
+    required: false
+  },
   sessionNumber: {
     type: Number,
     required: false
@@ -56,6 +60,10 @@ const menteeSchema = new mongoose.Schema({
     enum: ['Male', 'Female', 'Other'],
     required: true
   },
+  areasOfInterest: {
+    type: String,
+    required: false
+  },
   ageCategory: {
     type: String,
     enum: ['18-25', '26-35', '36-45', '46+'],
@@ -100,8 +108,21 @@ const menteeSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  mentorIdAssigned: {
+    type: String,
+    required: false
+  },
   module: {
     type: [moduleSchema]
+  },
+  areasOfInterest: {
+    type: String,
+    required: false,
+    default: null,
+  },
+  sessionDuration:{
+    type: Number,
+    required: false
   }
 });
 
