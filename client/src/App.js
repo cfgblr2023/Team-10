@@ -7,7 +7,8 @@ import {
   Route
 } from "react-router-dom";
 import HomePage from "./components/HomePage";
-
+import MyCalender from "./components/Calender";
+import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 
 function App() {
   return (
@@ -19,10 +20,11 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register/>} />
             <Route path="/home" element={<HomePage/>} />
-
+            <Route path="/calender" element={<MyCalender/>}/>
           </Routes>
         </div>
       </header>
+
     </div>
   );
 }
