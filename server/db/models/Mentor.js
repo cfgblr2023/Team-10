@@ -79,6 +79,10 @@ const mentorSchema = new mongoose.Schema({
   },
   module: {
     type: [moduleSchema]
+  },
+  areasOfInterest: {
+    type: String,
+    required: true
   }
 });
 

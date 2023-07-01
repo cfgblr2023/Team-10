@@ -102,6 +102,10 @@ const menteeSchema = new mongoose.Schema({
   },
   module: {
     type: [moduleSchema]
+  },
+  areasOfInterest: {
+    type: String,
+    required: false
   }
 });
 
