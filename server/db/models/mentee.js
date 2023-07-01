@@ -1,6 +1,4 @@
-const { DataTypes } = require('sequelize');
-const {sequelize} = require("."); // your sequelize instance
-const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 const moduleSchema = new mongoose.Schema({
   moduleNumber: {
     type: Number,
@@ -15,31 +13,39 @@ const moduleSchema = new mongoose.Schema({
     required: false
   }
 });
-const Mentee = sequelize.define('mentees', {
+
+const menteeSchema = new mongoose.Schema({
   username: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
     unique: true,
     validate: {
-      notEmpty: true,
-    },
+      validator: function(value) {
+        return value.trim().length > 0;
+      },
+      message: 'Username cannot be empty'
+    }
   },
   email: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
     unique: true,
     validate: {
-      notEmpty: true,
-      isEmail: true,
-    },
+      validator: function(value) {
+        return /\S+@\S+\.\S+/.test(value);
+      },
+      message: 'Invalid email address'
+    }
   },
   password: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
     validate: {
-      notEmpty: true,
-      len: [6, 255], // added maximum length limit
-    },
+      validator: function(value) {
+        return value.length >= 6;
+      },
+      message: 'Password must be at least 6 characters long'
+    }
   },
   phoneNumber: {
     type: String,
@@ -97,31 +103,8 @@ const Mentee = sequelize.define('mentees', {
   module: {
     type: [moduleSchema]
   }
-}, {
-  hooks: {
-    // Before hook before creating new mentees
-    beforeCreate: async (mentees) => {
-      const salt = await bcrypt.genSalt();
-      mentees.password = await bcrypt.hash(mentees.password, salt);
-    },
-  },
 });
 
-Mentee.login = async function(username, email, password) {
-  const mentees = await Mentee.findOne({ where: { username } });
-  if (mentees) {
-    const auth = await bcrypt.compare(password, mentees.password);
-    if (auth) {
-      return mentees;
-    }
-    throw new Error('Incorrect password');
-  }
-  throw new Error('Incorrect Details');
-};
-
-// After hook after creating new mentees
-Mentee.afterCreate((mentees) => {
-  console.log('The new mentees created is:', mentees.toJSON());
-});
+const Mentee = mongoose.model('Mentee', menteeSchema);
 
 module.exports = Mentee;

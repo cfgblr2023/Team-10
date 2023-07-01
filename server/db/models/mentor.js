@@ -1,6 +1,5 @@
-const { DataTypes } = require('sequelize');
-const {sequelize} = require("."); // your sequelize instance
-const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+
 const moduleSchema = new mongoose.Schema({
   moduleNumber: {
     type: Number,
@@ -15,31 +14,39 @@ const moduleSchema = new mongoose.Schema({
     required: false
   }
 });
-const Mentor = sequelize.define('mentors', {
+
+const mentorSchema = new mongoose.Schema({
   username: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
     unique: true,
     validate: {
-      notEmpty: true,
-    },
+      validator: function(value) {
+        return value.trim().length > 0;
+      },
+      message: 'Username cannot be empty'
+    }
   },
   email: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
     unique: true,
     validate: {
-      notEmpty: true,
-      isEmail: true,
-    },
+      validator: function(value) {
+        return /\S+@\S+\.\S+/.test(value);
+      },
+      message: 'Invalid email address'
+    }
   },
   password: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
     validate: {
-      notEmpty: true,
-      len: [6, 255], // added maximum length limit
-    },
+      validator: function(value) {
+        return value.length >= 6;
+      },
+      message: 'Password must be at least 6 characters long'
+    }
   },
   phoneNumber: {
     type: String,
@@ -54,7 +61,6 @@ const Mentor = sequelize.define('mentors', {
     type: String,
     required: true
   },
-  
   languagesSpoken: {
     type: [String],
     required: true
@@ -74,31 +80,8 @@ const Mentor = sequelize.define('mentors', {
   module: {
     type: [moduleSchema]
   }
-}, {
-  hooks: {
-    // Before hook before creating new mentors
-    beforeCreate: async (mentors) => {
-      const salt = await bcrypt.genSalt();
-      mentors.password = await bcrypt.hash(mentors.password, salt);
-    },
-  },
 });
 
-Mentor.login = async function(username, email, password) {
-  const mentors = await Mentor.findOne({ where: { username } });
-  if (mentors) {
-    const auth = await bcrypt.compare(password, mentors.password);
-    if (auth) {
-      return mentors;
-    }
-    throw new Error('Incorrect password');
-  }
-  throw new Error('Incorrect Details');
-};
-
-// After hook after creating new mentors
-Mentor.afterCreate((mentors) => {
-  console.log('The new mentors created is:', mentors.toJSON());
-});
+const Mentor = mongoose.model('Mentor', mentorSchema);
 
 module.exports = Mentor;
