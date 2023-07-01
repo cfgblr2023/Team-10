@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const mongoose = require('mongoose')
 require("dotenv").config({ path: "./config.env" });
-const record= require("./routes/record");
+// const record= require("./routes/record");
 const menteeroute = require("./routes/mentee");
 const mentorroute = require("./routes/mentor");
 const port = process.env.PORT || 5000;
@@ -19,54 +19,104 @@ app.use(cors());
 app.use(express.json());
 app.use("/mentee",menteeroute)
   
-app.post("/login",async (req, res) => {
-  await Mentee.findOne({username : req.body.username})
-    .then((user) => {
+// app.post("/login",async (req, res) => {
+//   await Mentee.findOne({username : req.body.username}).then((user) => {
+//       if(req.body.password===user.password)
+//       {
+//         const data = Mentee.findOne({username : req.body.username})
+//         jsonData = {
+//           id: data._id
+//         }
+//         console.log(jsonData)
+//         res.setHeader('Set-Cookie', `jsonData=${encodeURIComponent(JSON.stringify(jsonData))}`);
+//         return res.status(200).json({
+//             message: "Login Successful",
+//             email: user.email,
+//             role: "Mentee",
+//             data: JSON.parse(decodeURIComponent(cookies.jsonData))
+//         });
+//       }
+//       else
+//       {
+//         return res.status(400).json({
+//                   message: "Passwords does not match",
+//                   error,
+//                 }); 
+//       }
+//     })
+//     await Mentor.findOne({username : req.body.username})
+//     .then((user) => {
 
-      if(req.body.password===user.password)
-      {
-        return res.status(200).json({
-                  message: "Login Successful",
-                  email: user.email,
-                  role: "Mentee"
-                });
-      }
-      else
-      {
-        return res.status(400).json({
-                  message: "Passwords does not match",
-                  error,
-                }); 
-      }
-    })
-    await Mentor.findOne({username : req.body.username})
-    .then((user) => {
+//       if(req.body.password===user.password)
+//       {
+//         jsonData = {
+//           id: data._id
+//         }
+//         console.log(jsonData)
+//         res.setHeader('Set-Cookie', `jsonData=${encodeURIComponent(JSON.stringify(jsonData))}`);
+//         return res.status(200).json({
+//             message: "Login Successful",
+//             email: user.email,
+//             role: "Mentor",
+//             data: JSON.parse(decodeURIComponent(cookies.jsonData))
+//         });
+//       }
+//       else
+//       {
+//         return res.status(400).json({
+//                   message: "Passwords does not match",
+//                   error,
+//                 }); 
+//       }
+//     })
+//     // catch error if email does not exis
+//     .catch((error) => {
+//      return res.status(400).json({
+//        message: "User doesnot exist",
+//        error,
+//      });
+//      console.error(error);
+//    });
+// });
 
-      if(req.body.password===user.password)
-      {
-        return res.status(200).json({
-                  message: "Login Successful",
-                  email: user.email,
-                  role: "Mentor"
-                });
-      }
-      else
-      {
-        return res.status(400).json({
-                  message: "Passwords does not match",
-                  error,
-                }); 
-      }
-    })
-    // catch error if email does not exis
-    .catch((error) => {
-     return res.status(400).json({
-       message: "User doesnot exist",
-       error,
-     });
-     console.error(error);
-   });
+app.post("/login", async (req, res) => {
+  try {
+    const mentee = await Mentee.findOne({ username: req.body.username });
+    if (mentee && req.body.password === mentee.password) {
+      const jsonData = { id: mentee._id };
+      res.setHeader('Set-Cookie', `jsonData=${encodeURIComponent(JSON.stringify(jsonData))}`);
+      return res.status(200).json({
+        message: "Login Successful",
+        email: mentee.email,
+        role: "Mentee",
+        data: jsonData
+      });
+    }
+
+    const mentor = await Mentor.findOne({ username: req.body.username });
+    if (mentor && req.body.password === mentor.password) {
+      const jsonData = { id: mentor._id };
+      res.setHeader('Set-Cookie', `jsonData=${encodeURIComponent(JSON.stringify(jsonData))}`);
+      return res.status(200).json({
+        message: "Login Successful",
+        email: mentor.email,
+        role: "Mentor",
+        data: jsonData
+      });
+    }
+
+    return res.status(400).json({
+      message: "Invalid username or password",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "An error occurred during login",
+      error: error.message,
+    });
+  }
 });
+
 
 
 
