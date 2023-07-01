@@ -10,6 +10,7 @@ const port = process.env.PORT || 5000;
 const url = process.env.ATLAS_URI;
 const Mentee=require("./db/models/Mentee")
 const Mentor=require("./db/models/Mentor")
+const feedbackroute=require("./routes/feedback.js")
 
 mongoose.connect(url, (err) => {
   if (err) throw err;
@@ -18,6 +19,7 @@ mongoose.connect(url, (err) => {
 app.use(cors());
 app.use(express.json());
 app.use("/mentee",menteeroute)
+app.use("/fb",feedbackroute)
   
 // app.post("/login",async (req, res) => {
 //   await Mentee.findOne({username : req.body.username}).then((user) => {
