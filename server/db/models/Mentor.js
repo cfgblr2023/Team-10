@@ -88,6 +88,10 @@ const mentorSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  menteeIdAssigned: {
+    type: String,
+    required: false
+  }
 });
 
 const Mentor = mongoose.model('Mentor', mentorSchema);

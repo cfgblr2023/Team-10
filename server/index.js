@@ -21,6 +21,9 @@ app.use(cors());
 app.use(express.json());
 app.use("/mentee", menteeroute)
 app.use("/mentor", mentorroute)
+app.get("/",(req,res) => {
+    res.status(200).json({"Hello":"Alien"})
+})
 app.post("/login", async (req, res) => {
   try {
     const mentee = await Mentee.findOne({ username: req.body.username });

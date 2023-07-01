@@ -19,11 +19,13 @@ async function matchMenteeWithMentors(menteeId) {
       const commonAvailability = mentorAvailability.filter((day) => menteeAvailability.includes(day));
 
       if (commonLanguages.length > 0 && commonQualifications.length > 0 && commonAvailability.length > 0) {
+        const menteeName = mentee.findOne({}) 
+        const mentorName =
         mentor.menteeAssigned = true;
+        mentor.menteeNameAssigned = 
         mentee.mentorAssigned = true;
         mentor.save();
         mentee.save();
-
         console.log(`Mentor ${mentor.username} matched with Mentee ${mentee.username}`);
       }
     });
@@ -32,7 +34,7 @@ async function matchMenteeWithMentors(menteeId) {
   }
 }
 
-matchMenteeWithMentors(menteeIdToMatch);
+// matchMenteeWithMentors(menteeIdToMatch);
 // hululul
 // async function matchMentorsAndMentees() {
     // try {
