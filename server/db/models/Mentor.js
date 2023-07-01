@@ -83,6 +83,10 @@ const mentorSchema = new mongoose.Schema({
   areasOfInterest: {
     type: String,
     required: true
+  },
+  menteeIdAssigned: {
+    type: String,
+    required: false
   }
 });
 

@@ -100,6 +100,10 @@ const menteeSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  mentorIdAssigned: {
+    type: String,
+    required: false
+  },
   module: {
     type: [moduleSchema]
   },
