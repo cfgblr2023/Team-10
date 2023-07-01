@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import HomeNavbar from "./Navbar";
+import MyCalendar from "./Calender";
 function HomePage() {
 
   const [user, setUserData] = useState([]);
@@ -20,13 +21,14 @@ function HomePage() {
   return (
     <div>
       <HomeNavbar/>
-      <ul>
+      {/* <ul>
         {user.map((ele, index) => (
           <div key={index}>
             <li >{ele['username']}</li>
           </div>
         ))}
-      </ul>
+      </ul> */}
+      {/* <MyCalendar/> */}
     </div>);
 }
 
