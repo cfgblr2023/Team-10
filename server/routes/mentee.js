@@ -1,8 +1,6 @@
 const router = require("express").Router();
 const Mentee = require("../db/models/Mentee")
 const CryptoJS = require("crypto-js");
-
-
 router.post("/register",async (req,res)=>{
     const newUser = new Mentee({
         username: req.body.username,
@@ -21,11 +19,14 @@ router.post("/register",async (req,res)=>{
         availableTimingSlots:req.body.availableTimingSlots,
         otherComments:req.body.otherComments,
     });
+    // console.log(newUser)
+    // await newUser.save();
    try{
        const saveuser = await newUser.save();
        res.status(201).json(saveuser);
        
    }catch(err){
+      console.log(err)
        res.status(500).json(err);
    }  
 });
