@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Mentee = require("../db/models/Mentee")
 const Mentor = require("../db/models/Mentor")
-const cookie = require('cookie')
+const jwt = require('jsonwebtoken')
 router.post("/register", async (req, res) => {
     const newUser = new Mentee({
         username: req.body.username,
@@ -88,4 +88,12 @@ router.put("/assign-module", async (req, res) => {
     }
 })
 
+router.get('/details',async(req,res) => {
+    let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
+    let id = decodedtoken.id
+    const data = await Mentee.findById(id);
+    console.log(decodedtoken)
+    console.log(data)
+    res.status(200).json(data)
+})
 module.exports = router;

@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Mentor = require("../db/models/Mentor")
 const CryptoJS = require("crypto-js");
-
+const jwt = require('jsonwebtoken')
 
 router.post("/register",async (req,res)=>{
     const newUser = new Mentor({
@@ -23,34 +23,4 @@ router.post("/register",async (req,res)=>{
        res.status(500).json(err);
    }  
 });
-
-  
-router.post("/login",async (req, res) => {
-    await Mentor.findOne({username : req.body.username})
-      .then((user) => {
- 
-        if(req.body.password===user.password)
-        {
-          res.status(200).send({
-                    message: "Login Successful",
-                    email: user.email,
-                  });
-        }
-        else
-        {
-          res.status(400).send({
-                    message: "Passwords does not match",
-                    error,
-                  }); 
-        }
-      })
-      // catch error if email does not exis
-      .catch((error) => {
-       res.status(400).send({
-         message: "User doesnot exist",
-         error,
-       });
-     });
-  });
-
 module.exports = router;

@@ -3,6 +3,8 @@ const app = express();
 const cors = require("cors");
 const mongoose = require('mongoose')
 const cookie = require('cookie')
+const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 require("dotenv").config({ path: "./config.env" });
 // const record= require("./routes/record");
 const menteeroute = require("./routes/mentee");
@@ -17,42 +19,53 @@ mongoose.connect(url, (err) => {
   if (err) throw err;
   console.log("Database created!");
 });
+app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 app.use("/mentee", menteeroute)
 app.use("/mentor", mentorroute)
 app.get("/",(req,res) => {
+    let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
+    console.log(decodedtoken)
     res.status(200).json({"Hello":"Alien"})
 })
 app.post("/login", async (req, res) => {
   try {
     const mentee = await Mentee.findOne({ username: req.body.username });
     if (mentee && req.body.password === mentee.password) {
-      const jsonData = { id: mentee._id };
-      res.setHeader('Set-Cookie', `jsonData=${encodeURIComponent(JSON.stringify(jsonData))}`);
-      const cookieHeader = req.headers.cookie;
-      const cookies = cookie.parse(cookieHeader);
-      const data = cookies.jsonData ? JSON.parse(decodeURIComponent(cookies.jsonData)) : null;
+      const payload = { id: mentee._id }; // Example payload
+      const options = { expiresIn: '1h' }; // Example options
+      const token = jwt.sign(payload, process.env.SECRET, options);
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: true, 
+        maxAge: 3600000 
+      });
+      // console.log(data)
+      // console.log(req.cookies)
+      // let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
       return res.status(200).json({
         message: "Login Successful",
         email: mentee.email,
         role: "Mentee",
-        data: data
+        // data: decodedtoken
       });
     }
 
     const mentor = await Mentor.findOne({ username: req.body.username });
     if (mentor && req.body.password === mentor.password) {
-      const jsonData = { id: mentor._id };
-      res.setHeader('Set-Cookie', `jsonData=${encodeURIComponent(JSON.stringify(jsonData))}`);
-      const cookieHeader = req.headers.cookie;
-      const cookies = cookie.parse(cookieHeader);
-      const data = cookies.jsonData ? JSON.parse(decodeURIComponent(cookies.jsonData)) : null;
+      const payload = { id: mentor._id }; // Example payload
+      const options = { expiresIn: '1h' }; // Example options
+      const token = jwt.sign(payload, process.env.SECRET, options);
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: true, 
+        maxAge: 3600000 
+      });
       return res.status(200).json({
         message: "Login Successful",
         email: mentor.email,
         role: "Mentor",
-        data: data
       });
     }
 
