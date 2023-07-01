@@ -3,14 +3,14 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config({ path: "./config.env" });
 const record= require("./routes/record");
-const menteeroute=require("./routes/mentee");
 const port = process.env.PORT || 5000;
+const menteeroute=require("./routes/mentee");
 
 
 app.use(cors());
 app.use(express.json());
 app.use(require("./routes/record"));
-app.use("/mentee",menteeroute)
+app.use(require("./routes/mentee"))
 // get driver connection
 
 

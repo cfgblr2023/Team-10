@@ -21,7 +21,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 // This section will help you get a list of all the records.
 recordRoutes.route("/").get(function (req, res) {
- let db_connect = dbo.getDb("test1");
+ let db_connect = dbo.getDb("cfgdb");
  db_connect
    .collection("auth")
    .find({})
@@ -34,7 +34,7 @@ recordRoutes.route("/").get(function (req, res) {
 
 // This section will help you create a new record.
 recordRoutes.route("/login").post(function (req, res) {
-  let db_connect = dbo.getDb("test1");
+  let db_connect = dbo.getDb("cfgdb");
   db_connect
     .collection("auth")
     .find({})
@@ -81,7 +81,7 @@ recordRoutes.route("/login").post(function (req, res) {
 
  recordRoutes.route("/register").post(function (req, response) {
   // console.log(req,response);
-  let db_connect = dbo.getDb("test1");
+  let db_connect = dbo.getDb("cfgdb");
   let obj = {
     username: req.body.username,
     password: req.body.password,

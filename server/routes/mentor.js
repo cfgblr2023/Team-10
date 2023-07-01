@@ -25,4 +25,21 @@ router.post("/register",async (req,res)=>{
    }  
 });
 
+router.post("/login",async(req,res)=>{
+    try{
+      const lo_user=await Mentor.findOne({email:req.body.email});
+      console.log(req.body.email);
+      if(lo_user){
+      const validate=await bcrypt.compare(req.body.password,lo_user.password);
+      !validate && res.status(400).json("Wrong credentials");
+      console.log(req.body.password);
+      res.send(lo_user);
+      console.log("loged in");
+      }
+    }
+    catch(err){
+      console.log(err);
+    } 
+  });
+
 module.exports = router;
