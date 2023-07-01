@@ -7,15 +7,13 @@ router.post("/register",async (req,res)=>{
     const newUser = new Mentor({
         username: req.body.username,
         email: req.body.email,
-        password: CryptoJS.AES.encrypt(req.body.password , process.env.Pass_Sec).toString(),
+        password: req.body.password,
         phoneNumber:req.body.phoneNumber,
         gender:req.body.gender,
         qualification:req.body.qualification,
         languagesSpoken:req.body.languagesSpoken,
         availableDays:req.body.availableDays,
         availableTimingSlots:req.body.availableTimingSlots,
-        menteeAssigned:req.body.menteeAssigned,
-        module:req.body.module
     });
    try{
        const saveuser = await newUser.save();

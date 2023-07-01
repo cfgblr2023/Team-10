@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 require("dotenv").config({ path: "./config.env" });
 const record= require("./routes/record");
 const menteeroute = require("./routes/mentee");
+const mentorroute = require("./routes/mentor");
 const port = process.env.PORT || 5000;
 const url = process.env.ATLAS_URI;
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(require("./routes/record"));
 app.use("/mentee",menteeroute)
+app.use("/mentor",mentorroute)
 // get driver connection
 
 
