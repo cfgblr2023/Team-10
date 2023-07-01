@@ -34,6 +34,24 @@ router.post("/register", async (req, res) => {
     }
 });
 
+router.post("/update/:id", async (req, res) => {
+    const { id } = req.params;
+    const { sessionDuration } = req.body;
+  
+    try {
+      const mentee = await Mentee.findById(id);
+      if (!mentee) {
+        return res.status(404).json({ message: "Mentee not found" });
+      }
+  
+      mentee.sessionDuration = sessionDuration;
+      const updatedMentee = await mentee.save();
+      res.json(updatedMentee);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Failed to update Mentee" });
+    }
+})
 router.put("/assign-module", async (req, res) => {
     // const cookieHeader = req.headers.cookie;
     // const cookies = cookie.parse(cookieHeader);
