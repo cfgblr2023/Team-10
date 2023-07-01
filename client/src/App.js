@@ -1,5 +1,6 @@
 import Login from "./components/Login";
 import Register from "./components/Register";
+import MenteeRegister from './components/MenteeRegister'
 import LandingPage from "./components/LandingPage";
 import React from 'react';
 import {
@@ -7,6 +8,9 @@ import {
   Route
 } from "react-router-dom";
 import HomePage from "./components/HomePage";
+import MentorRegister from "./components/MentorRegister";
+import Maindashboard from "./components/dashboard/Maindashboard";
+
 import MyCalender from "./components/Calender";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 
@@ -20,6 +24,11 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register/>} />
             <Route path="/home" element={<HomePage/>} />
+            <Route path="/mentee-registration" element={<MenteeRegister/>} />
+            <Route path="/mentor-registration" element={<MentorRegister/>} />
+            <Route path="/dashboard" element={<Maindashboard/>} />
+            
+
             <Route path="/calender" element={<MyCalender/>}/>
           </Routes>
         </div>
