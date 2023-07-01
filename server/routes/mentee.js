@@ -72,7 +72,7 @@ router.put("/assign-module", async (req, res) => {
                 }
             });
             if(!mentee.mentorAssigned){
-                res.sendStatus(404)
+                res.sendStatus(404).json("Not found")
             }
         } catch (error) {
             if (error.message === 'BreakLoop') {
