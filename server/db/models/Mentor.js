@@ -5,6 +5,10 @@ const moduleSchema = new mongoose.Schema({
     type: Number,
     required: false
   },
+  moduleName: {
+    type: String,
+    required: false
+  },
   sessionNumber: {
     type: Number,
     required: false
