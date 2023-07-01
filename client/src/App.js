@@ -29,7 +29,7 @@ function App() {
             <Route path="/dashboard" element={<Maindashboard/>} />
             
 
-            <Route path="/calender" element={<MyCalender/>}/>
+            <Route path="/calender/:id" element={<MyCalender/>}/>
           </Routes>
         </div>
       </header>

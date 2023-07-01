@@ -1,5 +1,8 @@
 import { Eventcalendar, snackbar, setOptions, Popup, Button, Input, Textarea, Switch, Datepicker, SegmentedGroup, SegmentedItem } from '@mobiscroll/react';
 import React from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+
 setOptions({
     theme: 'ios',
     themeVariant: 'light'
@@ -65,6 +68,7 @@ const colorPopup = {
 const colors = ['#ffeb3c', '#ff9900', '#f44437', '#ea1e63', '#9c26b0', '#3f51b5', '', '#009788', '#4baf4f', '#7e5d4e'];
 
 function MyCalender() {
+    const { id } = useParams();
     const [myEvents, setMyEvents] = React.useState(defaultEvents);
     const [tempEvent, setTempEvent] = React.useState(null);
     const [isOpen, setOpen] = React.useState(false);
@@ -96,6 +100,35 @@ function MyCalender() {
         }
     ], [tempColor]);
 
+    // const totalHours = myEvents.map((event)=>{
+    //     const startDateTime = new Date(defaultEvents[0].start);
+    //     const endDateTime = new Date(defaultEvents[0].end);
+    //     const totalHours = (endDateTime - startDateTime) / (1000 * 60 * 60);
+    // })
+
+    
+
+    const handleSessionUpdate =async ()=>{
+        try {
+            const totalHours = defaultEvents
+            .map(event => {
+                const startDateTime = new Date(event.start);
+                const endDateTime = new Date(event.end);
+                return (endDateTime - startDateTime) / (1000 * 60 * 60);
+            })
+            .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+            console.log("total hours:  ",totalHours); // Output: 5.25
+
+            const response = await axios.post(`http://localhost:3001/mentee/update/${id}`, {
+              // include the data you want to update in the request body
+              // For example:
+              sessionDuration: totalHours,
+            });
+            console.log(response.data); // handle the response data as needed
+          } catch (error) {
+            console.error(error);
+          }
+    }
     const saveEvent = React.useCallback(() => {
         const newEvent = {
             id: tempEvent.id,
@@ -123,6 +156,7 @@ function MyCalender() {
             // here you can add the event to your storage as well
             // ...
         }
+        handleSessionUpdate();
         setSelectedDate(popupEventDate[0]);
         // close the popup
         setOpen(false);
@@ -141,6 +175,7 @@ function MyCalender() {
                 message: 'Event deleted'
             });
         });
+        handleSessionUpdate();
     }, [myEvents]);
 
     const loadPopupForm = React.useCallback((event) => {
