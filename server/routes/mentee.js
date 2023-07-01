@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Mentee = require("../db/models/Mentee")
-const CryptoJS = require("crypto-js");
+
 router.post("/register",async (req,res)=>{
     const newUser = new Mentee({
         username: req.body.username,
@@ -31,22 +31,33 @@ router.post("/register",async (req,res)=>{
        console.log(err);
    }  
 });
-
-router.post("/login",async(req,res)=>{
-    try{
-      const lo_user=await Mentee.findOne({email:req.body.email});
-      console.log(req.body.email);
-      if(lo_user){
-      const validate=await bcrypt.compare(req.body.password,lo_user.password);
-      !validate && res.status(400).json("Wrong credentials");
-      console.log(req.body.password);
-      res.send(lo_user);
-      console.log("loged in");
-      }
-    }
-    catch(err){
-      console.log(err);
-    } 
+  
+router.post("/login",async (req, res) => {
+    await Mentee.findOne({username : req.body.username})
+      .then((user) => {
+ 
+        if(req.body.password===user.password)
+        {
+          res.status(200).send({
+                    message: "Login Successful",
+                    email: user.email,
+                  });
+        }
+        else
+        {
+          res.status(400).send({
+                    message: "Passwords does not match",
+                    error,
+                  }); 
+        }
+      })
+      // catch error if email does not exis
+      .catch((error) => {
+       res.status(400).send({
+         message: "User doesnot exist",
+         error,
+       });
+     });
   });
 
   module.exports = router;
