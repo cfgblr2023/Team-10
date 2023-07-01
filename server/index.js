@@ -7,6 +7,8 @@ const record= require("./routes/record");
 const menteeroute = require("./routes/mentee");
 const port = process.env.PORT || 5000;
 const url = process.env.ATLAS_URI;
+const Mentee=require("./db/models/Mentee")
+const Mentor=require("./db/models/Mentor")
 
 mongoose.connect(url, (err) => {
   if (err) throw err;
@@ -14,9 +16,56 @@ mongoose.connect(url, (err) => {
 });
 app.use(cors());
 app.use(express.json());
-app.use(require("./routes/record"));
 app.use("/mentee",menteeroute)
-// get driver connection
+  
+app.post("/login",async (req, res) => {
+  await Mentee.findOne({username : req.body.username})
+    .then((user) => {
+
+      if(req.body.password===user.password)
+      {
+        return res.status(200).json({
+                  message: "Login Successful",
+                  email: user.email,
+                  role: "Mentee"
+                });
+      }
+      else
+      {
+        return res.status(400).json({
+                  message: "Passwords does not match",
+                  error,
+                }); 
+      }
+    })
+    await Mentor.findOne({username : req.body.username})
+    .then((user) => {
+
+      if(req.body.password===user.password)
+      {
+        return res.status(200).json({
+                  message: "Login Successful",
+                  email: user.email,
+                  role: "Mentor"
+                });
+      }
+      else
+      {
+        return res.status(400).json({
+                  message: "Passwords does not match",
+                  error,
+                }); 
+      }
+    })
+    // catch error if email does not exis
+    .catch((error) => {
+     return res.status(400).json({
+       message: "User doesnot exist",
+       error,
+     });
+     console.error(error);
+   });
+});
 
 
 
