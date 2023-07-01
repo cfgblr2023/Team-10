@@ -10,13 +10,12 @@ import {
 import HomePage from "./components/HomePage";
 import MentorRegister from "./components/MentorRegister";
 
-import MenteeMaindashboard from "./components/dashboard/MenteeMaindashboard";
-import MentorMaindashboard from "./components/dashboard/MenteeMaindashboard";
+import MenteeMaindashboard from "./components/menteedashboard/Maindashboard";
+import MentorMaindashboard from "./components/mentordashboard/MaindashboardAA";
 
 
 import MyCalender from "./components/Calender";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
-import MaindashboardAA from "./components/mentordashboard/MaindashboardAA";
 
 function App() {
   return (

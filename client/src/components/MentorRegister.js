@@ -15,7 +15,7 @@ function MentorRegister()
         axios.post("http://localhost:3001/mentor/register",userData)
         .then((res)=>{
             console.log(res)
-            navigate('/home')
+            navigate('/dashboard-mentor')
         })
         .catch((err)=>{
             console.log(err)
