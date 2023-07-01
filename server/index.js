@@ -31,8 +31,12 @@ app.post("/login", async (req, res) => {
       const jsonData = { id: mentee._id };
       res.setHeader('Set-Cookie', `jsonData=${encodeURIComponent(JSON.stringify(jsonData))}`);
       const cookieHeader = req.headers.cookie;
-      const cookies = cookie.parse(cookieHeader);
-      const data = cookies.jsonData ? JSON.parse(decodeURIComponent(cookies.jsonData)) : null;
+      let data = null;
+
+      if (typeof cookieHeader === 'string') {
+         const cookies = cookie.parse(cookieHeader);
+          data = cookies.jsonData ? JSON.parse(decodeURIComponent(cookies.jsonData)) : null;
+      }
       return res.status(200).json({
         message: "Login Successful",
         email: mentee.email,

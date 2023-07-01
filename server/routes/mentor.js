@@ -55,9 +55,9 @@ router.post("/login",async (req, res) => {
 
   router.get("/dashboard", async(req ,res) => {
     try{
-    // const cookieHeader = req.headers.cookie;
-    // const cookies = cookie.parse(cookieHeader);
-    // const data = cookies.jsonData ? JSON.parse(decodeURIComponent(cookies.jsonData)) : null;
+    const cookieHeader = req.headers.cookie;
+    const cookies = cookie.parse(cookieHeader);
+    const data = cookies.jsonData ? JSON.parse(decodeURIComponent(cookies.jsonData)) : null;
     id=req.body.id
     const details = await Mentor.findOne({_id:id})
     res.status(200).json(details);

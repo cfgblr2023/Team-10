@@ -19,7 +19,7 @@ router.post("/register", async (req, res) => {
         availableDays: req.body.availableDays,
         availableTimingSlots: req.body.availableTimingSlots,
         otherComments: req.body.otherComments,
-        areasOfInterest:null
+        areasOfInterest: null,
     });
     console.log(newUser)
     try {
