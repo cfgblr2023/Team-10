@@ -16,7 +16,8 @@ function Login()
                 navigate.goBack();
             } //then redirect to landing page
             else{
-                navigate("/dashboard");
+                console.log(res);
+                navigate(`/dashboard-${res.data.role}`);
             }
             console.log(res)
         
