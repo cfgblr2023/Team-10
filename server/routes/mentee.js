@@ -1,8 +1,7 @@
 const router = require("express").Router();
 const Mentee = require("../db/models/Mentee")
-
-
-router.post("/mentee/register",async (req,res)=>{
+const CryptoJS = require("crypto-js");
+router.post("/register",async (req,res)=>{
     const newUser = new Mentee({
         username: req.body.username,
         email: req.body.email,
@@ -27,6 +26,7 @@ router.post("/mentee/register",async (req,res)=>{
        res.status(201).json(saveuser);
 
    }catch(err){
+      console.log(err)
        res.status(500).json(err);
        console.log(err);
    }  
