@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Mentor = require("../db/models/Mentor")
 const CryptoJS = require("crypto-js");
-
+const cookie = require('cookie')
 
 router.post("/register",async (req,res)=>{
     const newUser = new Mentor({
@@ -52,5 +52,18 @@ router.post("/login",async (req, res) => {
        });
      });
   });
+
+  router.get("/dashboard", async(req ,res) => {
+    try{
+    // const cookieHeader = req.headers.cookie;
+    // const cookies = cookie.parse(cookieHeader);
+    // const data = cookies.jsonData ? JSON.parse(decodeURIComponent(cookies.jsonData)) : null;
+    id=req.body.id
+    const details = await Mentor.findOne({_id:id})
+    res.status(200).json(details);
+    }catch(err){
+       res.status(500).json(err);
+    }
+ });
 
 module.exports = router;
