@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const Mentee = require("../db/models/Mentee")
 const Mentor=require("../db/models/Mentor")
-
 router.post("/register",async (req,res)=>{
     const newUser = new Mentee({
         username: req.body.username,

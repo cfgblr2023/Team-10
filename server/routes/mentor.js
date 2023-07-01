@@ -15,7 +15,7 @@ router.post("/register",async (req,res)=>{
         availableDays:req.body.availableDays,
         availableTimingSlots:req.body.availableTimingSlots,
         areasOfInterest:req.body.areasOfInterest,
-      });
+    });
    try{
        const saveuser = await newUser.save();
        res.status(201).json(saveuser);
