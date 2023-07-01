@@ -116,7 +116,8 @@ const menteeSchema = new mongoose.Schema({
     required: false
   },
   sessionDuration:{
-    type:Integer
+    type: Number,
+    required: false
   }
 });
 
