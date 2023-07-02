@@ -20,7 +20,8 @@ function Login()
                 navigate("/dashboard-mentor");
             }
             else{
-                navigate("/login");
+                console.log(res);
+                navigate(`/dashboard-${res.data.role}`);
             }
             console.log(res)
         

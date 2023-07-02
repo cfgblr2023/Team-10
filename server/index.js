@@ -47,7 +47,7 @@ app.post("/login", async (req, res) => {
       return res.status(200).json({
         message: "Login Successful",
         email: mentee.email,
-        role: "Mentee",
+        role: "mentee",
         // data: decodedtoken
       });
     }
@@ -65,7 +65,7 @@ app.post("/login", async (req, res) => {
       return res.status(200).json({
         message: "Login Successful",
         email: mentor.email,
-        role: "Mentor",
+        role: "mentor",
       });
     }
 
