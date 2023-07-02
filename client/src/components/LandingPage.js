@@ -20,15 +20,22 @@ function LandingPage() {
         <header style={ HeaderStyle }>
             <h1 className="main-title text-center">Welcome!</h1>
             <p className="main-para text-center">Join us now and Explore!</p>
+
+
+            <div className='container my-5'>
             <div className="buttons text-center">
                 <Link to="/login">
-                    <button className="primary-button">Log In</button>
+                    <button type="button" className="btn btn-primary">Log In</button>
                 </Link>
                 <span style={{ margin: '10px' }}></span> {/* Add spacing */}
                 <Link to="/register">
-                    <button className="primary-button" id="reg_btn"><span>Register </span></button>
+                    <button type="button" class="btn btn-primary" id="reg_btn"><span>Register </span></button>
                 </Link>
             </div>
+            </div>
+
+            
+            
         </header>
     )
 }
