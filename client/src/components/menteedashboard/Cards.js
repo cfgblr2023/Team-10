@@ -5,10 +5,6 @@ import communication from "../../assets/communication.png";
 import finance from "../../assets/finance.jpg";
 import ML from "../../assets/ML.jpg";
 import SDE from "../../assets/SDE.jpg";
-import Chart from './Chart';
-import Calenderscreen from '../screen/Calenderscreen';
-
-import {useForm} from 'react-hook-form'
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
 
@@ -16,7 +12,10 @@ import axios from 'axios';
 function Cards() {
   const navigate=useNavigate()
   const assignMentor=(userData)=>{
-    axios.put("http://localhost:3001/mentee/assign-module",userData)
+  const jsonObject = JSON.stringify({"areasOfInterest": userData});
+  // const jsondata = JSON.parse(jsonObject);
+   console.log(jsonObject)
+    axios.put("http://localhost:3001/mentee/assign-module",jsonObject)
     .then((res)=>{
         if(res){
             console.log(res);
@@ -26,7 +25,6 @@ function Cards() {
     
     })
     .catch((err)=>console.log(err))
-    // console.log(userData)
 }
   return (
  <>
@@ -53,7 +51,7 @@ function Cards() {
             </div>
           </div>
         </div>
-        {/* <div className='col-md-4'>
+        <div className='col-md-4'>
           <div className="card" style={{ width: '18rem' }}>
             <img className="card-img-top" src={communication} alt="Card image cap" />
             <div className="card-body">
@@ -62,12 +60,7 @@ function Cards() {
               <a className="btn btn-dark" onClick={() => assignMentor("communication")}>Enroll Now</a>
             </div>
           </div>
-        </div> */}
-      
-       
-        <div className='col-md-4'>
-            <Chart />
-          </div>
+        </div>
       </div>
       {/* Repeat the above row structure for additional rows */}
       <div className='row'>
@@ -98,7 +91,7 @@ function Cards() {
             </div>
           </div>
         </div>
-        {/* <div className='col-md-4'>
+        <div className='col-md-4'>
           <div className="card" style={{ width: '18rem' }}>
             <img className="card-img-top" src={SDE} alt="Card image cap" />
             <div className="card-body">
@@ -107,7 +100,7 @@ function Cards() {
               <a className="btn btn-dark">Enroll Now</a>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
       {/* Repeat the above row structure for additional rows */}
       <div className='row'>
