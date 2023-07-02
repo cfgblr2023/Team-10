@@ -67,7 +67,7 @@ app.post("/login", async (req, res) => {
     }
 
     const admin = await Admin.findOne({ username: req.body.username });
-    if (admin && req.body.password === mentor.password) {
+    if (admin && req.body.password === admin.password) {
       // const payload = { id: admin._id }; // Example payload
       // const options = { expiresIn: '1h' }; // Example options
       // const token = jwt.sign(payload, process.env.SECRET, options);
@@ -107,6 +107,19 @@ app.get('/dashboard-mentee',async(req,res) => {
       res.status(200).json(response)
     } 
     res.status(404) 
+})
+app.post('/pic-register',async(req,res)=>{
+  const newUser = new Admin({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password
+  })
+  try{
+    const saveuser = await newUser.save();
+    res.status(201).json(saveuser);
+}catch(err){
+    res.status(500).json(err);
+}
 })
 app.get('/pic-dashboard',async(req,res) => {
     let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
