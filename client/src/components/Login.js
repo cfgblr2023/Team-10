@@ -15,9 +15,13 @@ function Login()
             if(res==="0"){
                 navigate.goBack();
             } //then redirect to landing page
+            else if (res.data.role == 'admin'){
+                console.log(res);
+                navigate(`/dashboard-pic`);
+            }
             else{
                 console.log(res);
-                navigate(`/dashboard-${res.data.role}`);
+                navigate(`/dashboard-${res.data.role}/64a096e1b805adda058cadf5`);
             }
             console.log(res)
         
