@@ -3,11 +3,12 @@ import Navbar from './Navbar'
 import Cards from './Cards'
 
 
-function MentorMaindashboard() {
+const MentorMaindashboard = (props) => {
+  const { id } = props;
   return (
     <div>
       <Navbar/>
-      <Cards/>
+      <Cards id={id}/>
       
     </div>
   )
