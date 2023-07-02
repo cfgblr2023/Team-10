@@ -5,8 +5,8 @@ import communication from "../../assets/communication.png";
 import finance from "../../assets/finance.jpg";
 import ML from "../../assets/ML.jpg";
 import SDE from "../../assets/SDE.jpg";
-
-
+import Chart from './Chart';
+import Calenderscreen from '../screen/Calenderscreen';
 
 
 
@@ -21,7 +21,7 @@ function Cards() {
             <div className="card-body">
               <h5 className="card-title">Artificial Intelligence</h5>
               <p className="card-text">Description...</p>
-              <a className="btn btn-dark">Enroll Now</a>
+              <button className="btn btn-dark" onClick="/calender">Enroll Now</button>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@ function Cards() {
             </div>
           </div>
         </div>
-        <div className='col-md-4'>
+        {/* <div className='col-md-4'>
           <div className="card" style={{ width: '18rem' }}>
             <img className="card-img-top" src={communication} alt="Card image cap" />
             <div className="card-body">
@@ -45,7 +45,12 @@ function Cards() {
               <a className="btn btn-dark">Enroll Now</a>
             </div>
           </div>
-        </div>
+        </div> */}
+      
+       
+        <div className='col-md-4'>
+            <Chart />
+          </div>
       </div>
       {/* Repeat the above row structure for additional rows */}
       <div className='row'>
@@ -76,7 +81,7 @@ function Cards() {
             </div>
           </div>
         </div>
-        <div className='col-md-4'>
+        {/* <div className='col-md-4'>
           <div className="card" style={{ width: '18rem' }}>
             <img className="card-img-top" src={SDE} alt="Card image cap" />
             <div className="card-body">
@@ -85,7 +90,7 @@ function Cards() {
               <a className="btn btn-dark">Enroll Now</a>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       {/* Repeat the above row structure for additional rows */}
       <div className='row'>

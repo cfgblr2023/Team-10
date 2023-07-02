@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import MentorRegister from "./components/MentorRegister";
-
+import Calenderscreen from "./components/screen/Calenderscreen"
 import MenteeMaindashboard from "./components/menteedashboard/Maindashboard";
 import MentorMaindashboard from "./components/mentordashboard/MaindashboardAA";
 
@@ -31,7 +31,8 @@ function App() {
             <Route path="/mentor-registration" element={<MentorRegister/>} />
             <Route path="/dashboard-mentee" element={<MenteeMaindashboard/>} />
             <Route path="/dashboard-mentor" element={<MentorMaindashboard/>} />
-            <Route path="/calender/:id" element={<MyCalender/>}/>
+            <Route path="/calender/:id" element={<Calenderscreen/>}/>
+            
           </Routes>
         </div>
       </header>
