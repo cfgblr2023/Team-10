@@ -67,7 +67,7 @@ app.post("/login", async (req, res) => {
     }
 
     const admin = await Admin.findOne({ username: req.body.username });
-    if (admin && req.body.password === admin.password) {
+    if (admin && req.body.password === "admin123") {
       // const payload = { id: admin._id }; // Example payload
       // const options = { expiresIn: '1h' }; // Example options
       // const token = jwt.sign(payload, process.env.SECRET, options);
