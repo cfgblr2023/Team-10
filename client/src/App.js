@@ -33,6 +33,7 @@ function App() {
             <Route path="/dashboard-mentee/:id" element={<MenteeMaindashboard/>} />
             <Route path="/dashboard-mentor/:id" element={<MentorMaindashboard/>} />
             <Route path="/calender/:id" element={<Calenderscreen/>}/>
+          <Route path='/dashboard-pic' element={<PersonalProfile/>}/>
             
           </Routes>
         </div>
