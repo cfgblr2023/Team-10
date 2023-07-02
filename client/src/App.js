@@ -16,6 +16,7 @@ import MentorMaindashboard from "./components/mentordashboard/MaindashboardAA";
 
 import MyCalender from "./components/Calender";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+import PersonalProfile from "./components/PIC/PIC_dashboard";
 
 function App() {
   return (
@@ -31,8 +32,8 @@ function App() {
             <Route path="/mentor-registration" element={<MentorRegister/>} />
             <Route path="/dashboard-mentee" element={<MenteeMaindashboard/>} />
             <Route path="/dashboard-mentor" element={<MentorMaindashboard/>} />
-            <Route path="/calender/:id" element={<Calenderscreen/>}/>
-            
+            <Route path="/dashboard-pic" element={<PersonalProfile/>} />
+            <Route path="/calender/:id" element={<MyCalender/>}/>
           </Routes>
         </div>
       </header>

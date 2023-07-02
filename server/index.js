@@ -82,7 +82,6 @@ app.post("/login", async (req, res) => {
         role: "admin",
       });
     }
-    
 
     return res.status(400).json({
       message: "Invalid username or password",
