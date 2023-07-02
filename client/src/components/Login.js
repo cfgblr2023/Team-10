@@ -12,11 +12,15 @@ function Login()
     const onFormSubmit=(userData)=>{
         axios.post("http://localhost:3001/login",userData)
         .then((res)=>{
-            if(res==="0"){
-                navigate.goBack();
+            console.log(res.data.role)
+            if(res.data.role==="Mentee"){
+                navigate("/dashboard-mentee");
             } //then redirect to landing page
+            else if (res.data.role==="Mentor"){
+                navigate("/dashboard-mentor");
+            }
             else{
-                navigate("/dashboard");
+                navigate("/login");
             }
             console.log(res)
         
