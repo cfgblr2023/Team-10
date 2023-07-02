@@ -122,39 +122,67 @@ app.post('/pic-register',async(req,res)=>{
 }
 })
 app.get('/pic-dashboard',async(req,res) => {
-    let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
-    let id = decodedtoken.id
-    const mentee_data = await Mentee.findById(id);
-    if(mentee_data){
-      if(mentee_data.mentorAssigned){
-        const mentor_data = await Mentor.findById(mentee_data.mentorIdAssigned);
-        const response = {
-          mentee_data: mentee_data,
-          mentor_data: mentor_data
-        }
-        res.status(200).json(response)
-      }
-      const response = {
-        mentee_data: mentee_data,
-        mentor_data: null
-      }
-      res.status(200).json(response)
-    } else {
-      const mentor_data = await Mentor.findById(id);
-      if(mentee_data.mentorAssigned){
-        const mentee_data = await Mentee.findById(mentor_data.menteeIdAssigned);
-        const response = {
-          mentee_data: mentee_data,
-          mentor_data: mentor_data
-        }
-        res.status(200).json(response)
-      }
-      const response = {
-        mentee_data: null,
-        mentor_data: mentor_data
-      }
-      res.status(200).json(response)
-    }
+    // let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
+    // let id = decodedtoken.id
+    // const mentee_data = await Mentee.findById(id);
+    // if(mentee_data){
+    //   if(mentee_data.mentorAssigned){
+    //     const mentor_data = await Mentor.findById(mentee_data.mentorIdAssigned);
+    //     const response = {
+    //       mentee_data: mentee_data,
+    //       mentor_data: mentor_data
+    //     }
+    //     res.status(200).json(response)
+    //   }
+    //   const response = {
+    //     mentee_data: mentee_data,
+    //     mentor_data: null
+    //   }
+    //   res.status(200).json(response)
+    // } else {
+    //   const mentor_data = await Mentor.findById(id);
+    //   if(mentee_data.mentorAssigned){
+    //     const mentee_data = await Mentee.findById(mentor_data.menteeIdAssigned);
+    //     const response = {
+    //       mentee_data: mentee_data,
+    //       mentor_data: mentor_data
+    //     }
+    //     res.status(200).json(response)
+    //   }
+    //   const response = {
+    //     mentee_data: null,
+    //     mentor_data: mentor_data
+    //   }
+    //   res.status(200).json(response)
+    // }
+    const mentee_list = await Mentee.find();
+const data = [];
+
+for (const mentee of mentee_list) {
+  const mentor_data = await Mentor.findOne({ _id: mentee.mentorIdAssigned });
+
+  if (mentor_data) {
+    console.log(mentor_data.username);
+  }
+
+  const response = {
+    mentee_data: {
+      username: mentee.username,
+      email: mentee.email,
+      phoneNumber: mentee.phoneNumber,
+      areasOfInterest: mentee.areasOfInterest,
+    },
+    mentor_data: {
+      email: mentor_data ? mentor_data.email : '',
+      phoneNumber: mentor_data ? mentor_data.phoneNumber : '',
+    },
+  };
+
+  data.push(response);
+}
+
+return res.status(200).send(data);
+
 })
 
 
