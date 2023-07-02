@@ -14,6 +14,7 @@ const port = process.env.PORT || 5000;
 const url = process.env.ATLAS_URI;
 const Mentee = require("./db/models/Mentee")
 const Mentor = require("./db/models/Mentor")
+const Admin = require("./db/models/Admin")
 
 mongoose.connect(url, (err) => {
   if (err) throw err;
@@ -41,14 +42,10 @@ app.post("/login", async (req, res) => {
         secure: true, 
         maxAge: 3600000 
       });
-      // console.log(data)
-      // console.log(req.cookies)
-      // let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
       return res.status(200).json({
         message: "Login Successful",
         email: mentee.email,
-        role: "Mentee",
-        // data: decodedtoken
+        role: "mentee",
       });
     }
 
@@ -65,9 +62,27 @@ app.post("/login", async (req, res) => {
       return res.status(200).json({
         message: "Login Successful",
         email: mentor.email,
-        role: "Mentor",
+        role: "mentor",
       });
     }
+
+    const admin = await Admin.findOne({ username: req.body.username });
+    if (admin && req.body.password === mentor.password) {
+      // const payload = { id: admin._id }; // Example payload
+      // const options = { expiresIn: '1h' }; // Example options
+      // const token = jwt.sign(payload, process.env.SECRET, options);
+      // res.cookie('jwt', token, {
+      //   httpOnly: true,
+      //   secure: true, 
+      //   maxAge: 3600000 
+      // });
+      return res.status(200).json({
+        message: "Login Successful",
+        email: admin.email,
+        role: "admin",
+      });
+    }
+    
 
     return res.status(400).json({
       message: "Invalid username or password",
@@ -81,6 +96,53 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get('/dashboard-mentee',async(req,res) => {
+  let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
+    let id = decodedtoken.id
+    const mentee_data = await Mentee.findById(id);
+    if(mentee_data){
+      const response = {
+        mentee_data: mentee_data
+      }
+      res.status(200).json(response)
+    } 
+    res.status(404) 
+})
+app.get('/pic-dashboard',async(req,res) => {
+    let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
+    let id = decodedtoken.id
+    const mentee_data = await Mentee.findById(id);
+    if(mentee_data){
+      if(mentee_data.mentorAssigned){
+        const mentor_data = await Mentor.findById(mentee_data.mentorIdAssigned);
+        const response = {
+          mentee_data: mentee_data,
+          mentor_data: mentor_data
+        }
+        res.status(200).json(response)
+      }
+      const response = {
+        mentee_data: mentee_data,
+        mentor_data: null
+      }
+      res.status(200).json(response)
+    } else {
+      const mentor_data = await Mentor.findById(id);
+      if(mentee_data.mentorAssigned){
+        const mentee_data = await Mentee.findById(mentor_data.menteeIdAssigned);
+        const response = {
+          mentee_data: mentee_data,
+          mentor_data: mentor_data
+        }
+        res.status(200).json(response)
+      }
+      const response = {
+        mentee_data: null,
+        mentor_data: mentor_data
+      }
+      res.status(200).json(response)
+    }
+})
 
 
 
