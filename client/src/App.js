@@ -16,6 +16,7 @@ import MentorMaindashboard from "./components/mentordashboard/MaindashboardAA";
 
 import MyCalender from "./components/Calender";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+import PersonalProfile from "./components/PIC/PIC_dashboard";
 
 function App() {
   return (

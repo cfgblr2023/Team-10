@@ -5,10 +5,6 @@ import communication from "../../assets/communication.png";
 import finance from "../../assets/finance.jpg";
 import ML from "../../assets/ML.jpg";
 import SDE from "../../assets/SDE.jpg";
-import Chart from './Chart';
-import Calenderscreen from '../screen/Calenderscreen';
-
-import {useForm} from 'react-hook-form'
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
 import {Link} from "react-router-dom"
@@ -59,7 +55,7 @@ const Cards = (props) => {
             </div>
           </div>
         </div>
-        {/* <div className='col-md-4'>
+        <div className='col-md-4'>
           <div className="card" style={{ width: '18rem' }}>
             <img className="card-img-top" src={communication} alt="Card image cap" />
             <div className="card-body">
