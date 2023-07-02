@@ -56,7 +56,7 @@ router.put("/assign-module", async (req, res) => {
     // const cookieHeader = req.headers.cookie;
     // const cookies = cookie.parse(cookieHeader);
     // const data = cookies.jsonData ? JSON.parse(decodeURIComponent(cookies.jsonData)) : null;
-    let decodedtoken = jwt.verify(req.cookies.jwt,process.env.SECRET)
+    let decodedtoken = jwt.verify(req.cookies.jwt ,process.env.SECRET)
     let id = decodedtoken.id
     const data = id
     const filter = { _id: data };
@@ -92,19 +92,25 @@ router.put("/assign-module", async (req, res) => {
                 }
             });
             if(!mentee.mentorAssigned){
-                res.sendStatus(404).json("Not found")
+                console.log("1");
+                res.sendStatus(404).json("Not found");
+                return;
             }
         } catch (error) {
             if (error.message === 'BreakLoop') {
                 // Handle the exception (optional)
-                res.sendStatus(200)
+                console.log("2");
+                res.send(200);
+                return;
             } else {
-                throw error;
+                //throw error;
             }
         }
         // res.sendStatus(200)          
     } else {
-        res.status(500)
+        console.error("3");
+        res.status(500);
+        return;
     }
 })
 
