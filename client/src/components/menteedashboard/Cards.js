@@ -64,7 +64,7 @@ const Cards = (props) => {
               <a className="btn btn-dark" onClick={() => assignMentor("communication")}>Enroll Now</a>
             </div>
           </div>
-        </div> */}
+        </div> 
       
        
         {/* <div className='col-md-4'>
