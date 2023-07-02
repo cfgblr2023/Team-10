@@ -5,12 +5,26 @@ import communication from "../../assets/communication.png";
 import finance from "../../assets/finance.jpg";
 import ML from "../../assets/ML.jpg";
 import SDE from "../../assets/SDE.jpg";
-
-
-
+import {useForm} from 'react-hook-form'
+import {useNavigate} from 'react-router-dom'
+import axios from 'axios';
 
 
 function Cards() {
+  const navigate=useNavigate()
+  const assignMentor=(userData)=>{
+    axios.put("http://localhost:3001/mentee/assign-module",userData)
+    .then((res)=>{
+        if(res){
+            console.log(res);
+            navigate(`/dashboard-mentee`);
+        }
+        console.log(res)
+    
+    })
+    .catch((err)=>console.log(err))
+    // console.log(userData)
+}
   return (
  <>
     <div className='container my-5'>
@@ -21,7 +35,7 @@ function Cards() {
             <div className="card-body">
               <h5 className="card-title">Artificial Intelligence</h5>
               <p className="card-text">Description...</p>
-              <a className="btn btn-dark">Enroll Now</a>
+              <a className="btn btn-dark" onClick={() => assignMentor("Artificial Intelligence")}>Enroll Now</a>
             </div>
           </div>
         </div>
@@ -42,7 +56,7 @@ function Cards() {
             <div className="card-body">
               <h5 className="card-title">Communication</h5>
               <p className="card-text">Description...</p>
-              <a className="btn btn-dark">Enroll Now</a>
+              <a className="btn btn-dark" onClick={() => assignMentor("communication")}>Enroll Now</a>
             </div>
           </div>
         </div>

@@ -12,13 +12,9 @@ function Login()
     const onFormSubmit=(userData)=>{
         axios.post("http://localhost:3001/login",userData)
         .then((res)=>{
-            console.log(res.data.role)
-            if(res.data.role==="Mentee"){
-                navigate("/dashboard-mentee");
+            if(res==="0"){
+                navigate.goBack();
             } //then redirect to landing page
-            else if (res.data.role==="Mentor"){
-                navigate("/dashboard-mentor");
-            }
             else{
                 console.log(res);
                 navigate(`/dashboard-${res.data.role}`);
@@ -45,6 +41,8 @@ function Login()
                         <input type="text" id="username" className="form-control" {...register("username", { required: true, minLength: 4 ,maxLength:10})} />
                         {/* validation error msg for username */}
                         {errors.username?.type === 'required' && <p className='text-danger'>* Username required</p>}
+                        {errors.username?.type === 'minLength' && <p className='text-danger'>* Min length should be 6</p>}
+                        {errors.username?.type === 'maxLength' && <p className='text-danger'>* Max length should be 10</p>}
                     </div>
                     {/* password */}
                     <div className="mb-3">
@@ -52,6 +50,8 @@ function Login()
                         <input type="password" id="password" className="form-control" {...register("password", { required: true,maxLength:4, maxLength:8 })} />
                         {/* validation error msg for password */}
                         {errors.email?.type === 'required' && <p className='text-danger'>* Password required</p>}
+                        {errors.username?.type === 'minLength' && <p className='text-danger'>* Min length should be 4</p>}
+                        {errors.username?.type === 'maxLength' && <p className='text-danger'>* Max length should be 8</p>}
                     </div>
                     {/* login button */}
                     <div className='mb-1 text-center'>
